@@ -14,7 +14,7 @@ import {
 const router = Router();
 
 router.get('', getEvents);
-router.get('/info', getEventById);
+router.get('/info/:id', getEventById);
 router.get('/available', getAvailableEvents);
 router.get('/unregistered/:id', getUnregisteredEvents);
 router.get('/registered/:id', getMyEvents);
