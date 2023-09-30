@@ -151,8 +151,8 @@ export const unregisterToEvent = async (req, res) => {
     const [rows] = await conn.query(
       'DELETE FROM user_event WHERE user_id = ? AND event_id = ?',
       [
-        req.body.user_id,
-        req.body.event_id,
+        req.params.userId,
+        req.params.eventId,
       ]
     );
 
