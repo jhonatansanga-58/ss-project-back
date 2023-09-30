@@ -21,6 +21,6 @@ router.get('/registered/:id', getMyEvents);
 router.post('/create', createEvent);
 router.put('/update', updateEvent);
 router.post('/register', registerToEvent);
-router.delete('/unregister', unregisterToEvent);
+router.delete('/unregister/:userId/:eventId', unregisterToEvent);
 
 export default router;
