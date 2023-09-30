@@ -13,7 +13,7 @@ export const getEvents = async (req, res) => {
 
 export const getEventById = async (req, res) => {
   try {
-    const id = req.body.id;
+    const id = req.params.id;
 
     const [rows] = await conn.query('SELECT * FROM event WHERE id = ?', [id]);
     res.json(rows[0]);
