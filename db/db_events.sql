@@ -21,7 +21,7 @@ USE `db_events` ;
 -- Table `db_events`.`event`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `db_events`.`event` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(45) NOT NULL,
   `description` VARCHAR(600) NOT NULL,
   `location` VARCHAR(300) NOT NULL,
@@ -30,9 +30,11 @@ CREATE TABLE IF NOT EXISTS `db_events`.`event` (
   `time` VARCHAR(45) NOT NULL,
   `min_age` TINYINT NOT NULL,
   `create_date` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
-  `state` TINYINT NOT NULL DEFAULT 1,
+  `state` TINYINT NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`))
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
@@ -41,13 +43,17 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `db_events`.`user` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
-  `email` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(45) NOT NULL,
-  `birthday` VARCHAR(45) NULL,
+  `email` VARCHAR(200) NOT NULL,
+  `salt` VARCHAR(45) NULL DEFAULT NULL,
+  `birthday` DATE NULL DEFAULT NULL,
   `create_date` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
-  `role` TINYINT NULL DEFAULT 1,
+  `role` TINYINT NULL DEFAULT '1',
+  `password` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
-ENGINE = InnoDB;
+ENGINE = InnoDB
+AUTO_INCREMENT = 3
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
@@ -58,17 +64,15 @@ CREATE TABLE IF NOT EXISTS `db_events`.`user_event` (
   `event_id` INT NOT NULL,
   INDEX `fk_user_event_user_idx` (`user_id` ASC) VISIBLE,
   INDEX `fk_user_event_event1_idx` (`event_id` ASC) VISIBLE,
-  CONSTRAINT `fk_user_event_user`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `db_events`.`user` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_user_event_event1`
     FOREIGN KEY (`event_id`)
-    REFERENCES `db_events`.`event` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    REFERENCES `db_events`.`event` (`id`),
+  CONSTRAINT `fk_user_event_user`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `db_events`.`user` (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
