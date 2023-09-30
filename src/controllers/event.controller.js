@@ -37,12 +37,27 @@ export const getAvailableEvents = async (req, res) => {
 
 export const getMyEvents = async (req, res) => {
   try {
-    const userId = req.body.id;
+    const userId = req.params.id;
 
     const [rows] = await conn.query(
       `SELECT * FROM EVENT E
        INNER JOIN user_event UE ON UE.event_id = E.id
        WHERE UE.user_id = ?`, [userId]);
+    res.send(rows);
+  } catch (error) {
+    return res.status(500).json({
+      message: "Something went wrong"
+    });
+  }
+};
+
+export const getUnregisteredEvents = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    const [rows] = await conn.query(
+      `SELECT * FROM event
+       WHERE event.id NOT IN (SELECT event_id FROM user_event WHERE user_id = ?)`, [userId]);
     res.send(rows);
   } catch (error) {
     return res.status(500).json({

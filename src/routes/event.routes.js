@@ -7,7 +7,8 @@ import {
   createEvent,
   updateEvent,
   registerToEvent,
-  unregisterToEvent
+  unregisterToEvent,
+  getUnregisteredEvents
 } from "../controllers/event.controller.js";
 
 const router = Router();
@@ -15,7 +16,8 @@ const router = Router();
 router.get('', getEvents);
 router.get('/info', getEventById);
 router.get('/available', getAvailableEvents);
-router.get('/registered', getMyEvents);
+router.get('/unregistered/:id', getUnregisteredEvents);
+router.get('/registered/:id', getMyEvents);
 router.post('/create', createEvent);
 router.put('/update', updateEvent);
 router.post('/register', registerToEvent);
